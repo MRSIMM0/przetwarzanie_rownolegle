@@ -99,7 +99,7 @@ void measureExecutionTime(std::string message,Func func, Args... args) {
 int main(int argc, char *argv[]) {
 
     int start = 2;
-    int end = 20000000;
+    int end = 1000000;
 
 
     if(argc == 3) {
