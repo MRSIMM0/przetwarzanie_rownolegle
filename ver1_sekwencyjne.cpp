@@ -1,8 +1,9 @@
 #include <iostream>
 #include <cmath>
-#include <time.h>
 #include <vector>
 #include <cmath>
+#include <chrono>
+
 #include <omp.h>
 // SEKEWNCYJNE SITO
 std::vector<int> sieveOfEratosthenes(int lower, int upper) {
@@ -18,10 +19,15 @@ std::vector<int> sieveOfEratosthenes(int lower, int upper) {
         }
     }
 
-    for (int p = lower; p <= upper; p++) {
-        if (prime[p])
-            primes.push_back(p);
-    }
+    // for (int p = lower; p <= upper; p++) {
+    //     if (prime[p]) {
+    //         primes.push_back(p);
+    //         counter++;
+    //         if (counter % 10 == 0) {
+    //             std::cout << std::endl;
+    //         }
+    //     }
+    // }
 
     return primes;
 }
@@ -31,7 +37,7 @@ bool isPrime(int num) {
     if (num <= 1) return false;
     if (num == 2) return true;
     if (num % 2 == 0) return false;
-    
+
     int limit = std::sqrt(num);
     for (int i = 3; i <= limit; i += 2) {
         if (num % i == 0) return false;
@@ -39,7 +45,7 @@ bool isPrime(int num) {
     return true;
 }
 
-int countPrimes(int start, int end) {
+void printPrimes(int start, int end) {
     std::vector<int> primes;
 
     for (int i = start; i <= end; i++) {
@@ -48,33 +54,37 @@ int countPrimes(int start, int end) {
         }
     }
 
-    return primes.size();
+    // for (int i = 0; i < primes.size(); i++) {
+    //     std::cout << primes[i] << " ";
+    //     if ((i + 1) % 10 == 0) {
+    //         std::cout << std::endl;
+    //     }
+    // }
 }
 /////////////////////////////
 
 template<typename Func, typename... Args>
-void measureExecutionTime(std::string message,Func func, Args... args) {
-    clock_t spstart, spstop;
-    spstart = clock();
+void measureExecutionTime(std::string message, Func func, Args... args) {
+    auto start = std::chrono::high_resolution_clock::now();
     func(args...);
-    spstop = clock();
-    double time = (message, (double)(spstop - spstart)/CLOCKS_PER_SEC);
-    std::cout<<message<<" "<<time<<" sekund"<<std::endl;
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    double time = duration.count() / 1e6;
+    std::cout << message << " " << time << " sekund" << std::endl;
 }
 
 
 int main(int argc, char *argv[]) {
 
     int start = 2;
-    int end = 20000000;
+    int end = 100000000;
 
 
     if(argc == 3) {
         start = atoi(argv[1]);
         end = atoi(argv[2]);
     }
-    std::cout<<countPrimes(start, end)<<std::endl;
-    // measureExecutionTime("Po kolei", countPrimes ,start, end);
+    measureExecutionTime("Po kolei", printPrimes ,start, end);
     measureExecutionTime("Sito", sieveOfEratosthenes, start, end);
     return 0;
 }

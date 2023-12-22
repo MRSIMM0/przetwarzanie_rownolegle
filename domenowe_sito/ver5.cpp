@@ -50,12 +50,24 @@ void sieveOfEratosthenes(int M, int N, std::vector<int>& primes) {
     std::sort(primes.begin(), primes.end());
 }
 
+template<typename Func, typename... Args>
+void measureExecutionTime(std::string message,Func func, Args... args) {
+    clock_t spstart, spstop;
+    spstart = clock();
+    func(args...);
+    spstop = clock();
+    double time = (message, (double)(spstop - spstart)/CLOCKS_PER_SEC);
+    std::cout<<message<<" "<<time<<" sekund"<<std::endl;
+}
+
+
 int main() {
     int M = 2;
-    int N = 100;
+    int N = 1000000;
     std::vector<int> primes;
 
     sieveOfEratosthenes(M, N, primes);
+    measureExecutionTime("Sito",sieveOfEratosthenes, M, N, primes);
     printPrimes(primes);
 
     return 0;

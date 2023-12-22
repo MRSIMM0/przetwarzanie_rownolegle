@@ -44,6 +44,8 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "__locale": "cpp",
+        "__split_buffer": "cpp"
     }
 }

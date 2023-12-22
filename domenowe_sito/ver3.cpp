@@ -33,11 +33,22 @@ void sieveOfEratosthenes(int M, int N) {
     printPrimes(isPrime, M, N);
 }
 
+template<typename Func, typename... Args>
+void measureExecutionTime(std::string message,Func func, Args... args) {
+    clock_t spstart, spstop;
+    spstart = clock();
+    func(args...);
+    spstop = clock();
+    double time = (message, (double)(spstop - spstart)/CLOCKS_PER_SEC);
+    std::cout<<message<<" "<<time<<" sekund"<<std::endl;
+}
+
+
 int main() {
     int M, N;
 
     M = 2;
-    N = 40;
-    sieveOfEratosthenes(M, N);
+    N = 1000000;
+    measureExecutionTime("Sito",sieveOfEratosthenes, M, N);
     return 0;
 }

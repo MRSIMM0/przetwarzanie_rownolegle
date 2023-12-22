@@ -31,7 +31,6 @@ void sieve_of_eratosthenes_parallel(int M, int N) {
         }
     }
 
-    omp_set_num_threads(2); // Ustawienie liczby wątków
 
     // Równoległe oznaczanie wielokrotności jako złożone
     #pragma omp parallel for schedule(static)
@@ -67,7 +66,7 @@ void measureExecutionTime(std::string message, Func func, Args... args) {
 
 int main() {
     int M = 2;
-    int N = 20000000;
+    int N = 10000000;
     measureExecutionTime("Sito Eratostenesa", sieve_of_eratosthenes_parallel, M, N);
 
     return 0;
