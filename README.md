@@ -25,6 +25,8 @@
     <br/>
     <br/>
     Autorzy:
+    <br/>
+    Szymon Pasieczny
 
 </div>
 <div style="page-break-after: always;"></div>
