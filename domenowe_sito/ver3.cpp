@@ -2,53 +2,84 @@
 #include <vector>
 #include <cmath>
 #include <omp.h>
+#include <chrono>
+#include <algorithm>
 
-void printPrimes(const std::vector<bool>& isPrime, int M, int N) {
-    int count = 0, lineCount = 0;
-    for (int i = M; i <= N; ++i) {
-        if (isPrime[i]) {
-            std::cout << i << " ";
-            if (++lineCount % 10 == 0) std::cout << std::endl;
-            ++count;
+void printPrimes(const std::vector<int>& primes) {
+    for (size_t i = 0; i < primes.size(); ++i) {
+        if (i > 0 && i % 10 == 0) {
+            std::cout << std::endl;
         }
+        std::cout << primes[i] << " ";
     }
-    std::cout << "\nZnaleziono " << count << " liczb pierwszych w zakresie od " << M << " do " << N << "." << std::endl;
+    std::cout << "\nZnaleziono " << primes.size() << " liczb pierwszych." << std::endl;
 }
 
-void sieveOfEratosthenes(int M, int N) {
-    std::vector<bool> isPrime(N + 1, true);
-    isPrime[0] = isPrime[1] = false;
-    int limit = std::sqrt(N);
+std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
+    const long long segmentSize = 1000000;
+    std::vector<long long> primes;
 
-    #pragma omp parallel for schedule(dynamic)
-    for (int p = 2; p <= limit; ++p) {
-        if (isPrime[p]) {
-            for (int i = p * p; i <= N; i += p) {
-                #pragma omp critical
-                isPrime[i] = false;
+    long long limit = std::sqrt(std::sqrt(upper) + 1);
+    std::vector<bool> prime(limit, true);
+
+    if(lower == 0){
+        lower = 2;
+    }
+
+    #pragma omp parallel
+    {
+        std::vector<bool> segmentPrime(segmentSize);
+        std::vector<long long> localPrimes;
+
+        #pragma omp for schedule(guided)
+        for (long long low = lower; low <= upper; low += segmentSize) {
+            std::fill(segmentPrime.begin(), segmentPrime.end(), true);
+            long long high = std::min(low + segmentSize - 1, upper);
+
+            for (long long p = 2; p * p <= high; p++) {
+                if (prime[p]) {
+                    for (long long i = std::max(p * p, (low + p - 1) / p * p); i <= high; i += p)
+                        segmentPrime[i - low] = false;
+                }
+            }
+
+            for (long long i = low; i <= high; i++) {
+                if (segmentPrime[i - low]) {
+                    localPrimes.push_back(i);
+                }
             }
         }
+
+        #pragma omp critical
+        {
+            primes.insert(primes.end(), localPrimes.begin(), localPrimes.end());
+        }
     }
 
-    printPrimes(isPrime, M, N);
+    return primes;
 }
+
 
 template<typename Func, typename... Args>
-void measureExecutionTime(std::string message,Func func, Args... args) {
-    clock_t spstart, spstop;
-    spstart = clock();
-    func(args...);
-    spstop = clock();
-    double time = (message, (double)(spstop - spstart)/CLOCKS_PER_SEC);
-    std::cout<<message<<" "<<time<<" sekund"<<std::endl;
+void measureExecutionTime(Func func, Args... args) {
+    auto start = std::chrono::high_resolution_clock::now();
+    std::vector<long long> result = func(args...);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    double time = duration.count() / 1e6;
+    std::cout << time << std::endl;
+    std::cout << result.size() << std::endl;
 }
 
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        std::cout << "Użycie: ./program M N" << std::endl;
+        return 1;
+    }
 
-int main() {
-    int M, N;
+    long long M = std::stoll(argv[1]);
+    long long N = std::stoll(argv[2]);
 
-    M = 2;
-    N = 1000000;
-    measureExecutionTime("Sito",sieveOfEratosthenes, M, N);
+    measureExecutionTime(sieveOfEratosthenes ,M, N);
     return 0;
 }

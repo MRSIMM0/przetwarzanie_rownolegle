@@ -14,26 +14,32 @@ void printPrimes(const std::vector<long long>& primes) {
     std::cout << "\nZnaleziono " << primes.size() << " liczb pierwszych." << std::endl;
 }
 
-std::vector<long long> sieveOfEratosthenes(long long M, long long N) {
+std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
+    std::vector<bool> is_prime(N + 1, true);
     std::vector<long long> primes;
-    std::vector<bool> isPrime(N + 1, true);
-    isPrime[0] = isPrime[1] = false;
-    long long limit = std::sqrt(N);
 
-    #pragma omp parallel for schedule(dynamic)
-    for (long long p = M; p <= limit; ++p) {
-        if (isPrime[p]) {
-            for (long long i = p * p; i <= N; i += p) {
-                isPrime[i] = false;
+    long long sqrtN = static_cast<long long>(std::sqrt(N)) + 1;
+
+    #pragma omp parallel
+    {
+        #pragma omp for schedule(static)
+        for (long long p = 2; p <= sqrtN; ++p) {
+            if (is_prime[p]) {
+                for (long long i = p * p; i <= N; i += p) {
+                    is_prime[i] = false;
+                }
+            }
+        }
+
+        #pragma omp for schedule(dynamic)
+        for (long long i = std::max(M, 2LL); i <= N; i++) {
+            if (is_prime[i]) {
+                #pragma omp critical
+                primes.push_back(i);
             }
         }
     }
 
-    for (long long i = M; i <= N; ++i) {
-        if (isPrime[i]) {
-          primes.push_back(i);
-        }
-    }
     return primes;
 }
 
@@ -44,8 +50,8 @@ void measureExecutionTime(Func func, Args... args) {
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     double time = duration.count() / 1e6;
-    std::cout << time << std::endl;
-    std::cout << result.size() << std::endl;
+    std::cout << "Czas wykonania: " << time << " sekundy" << std::endl;
+    std::cout << "Liczba znalezionych liczb pierwszych: " << result.size() << std::endl;
 }
 
 int main(int argc, char* argv[]) {
@@ -56,7 +62,8 @@ int main(int argc, char* argv[]) {
 
     long long M = std::stoll(argv[1]);
     long long N = std::stoll(argv[2]);
+    measureExecutionTime(sieve_of_eratosthenes, M, N);
+    // printPrimes(sieve_of_eratosthenes(M, N));
 
-    measureExecutionTime(sieveOfEratosthenes ,M, N);
     return 0;
 }
