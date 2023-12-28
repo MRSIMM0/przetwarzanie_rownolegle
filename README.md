@@ -55,7 +55,7 @@ Celem niniejszego projektu jest analiza i ocena efektywności przetwarzania rów
 5. **Dodatkowe specyfikacje**:
    - **Pamięć RAM**: 8Gb
 
-## 1.2 Znaczenie i cel ekspreymentu
+## 1.2 Znaczenie i cel eksperymentu
 Projekt ma na celu nie tylko praktyczne zastosowanie teoretycznej wiedzy zdobytej na zajęciach, ale również stanowi okazję do eksploracji nowych technologii i platform sprzętowych. Analiza przeprowadzona na Macbooku Air z procesorem M2 pozwoli na zgłębienie wiedzy na temat możliwości i ograniczeń nowoczesnych technologii Apple w kontekście przetwarzania równoległego.
 <div style="page-break-after: always;"></div>
 
@@ -120,7 +120,7 @@ std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
       return primes;
   }
   ```
-  Ten fragment kodu również nie wykorzystuje elementów przetwarzania równoległego ,i służy nam za punkt odniesienia w wyznaczaniu przyspieszenia. Algorytm ten to segemntowe sito Erastotelesa, został wykorzystany ze wzgledu na mniejsze wykorzystanie pamięci.
+  Ten fragment kodu również nie wykorzystuje elementów przetwarzania równoległego ,i służy nam za punkt odniesienia w wyznaczaniu przyspieszenia. Algorytm ten to segmentowe sito Erastotelesa, został wykorzystany ze wzgledu na mniejsze wykorzystanie pamięci.
 ### **Wariant 3 - Rozproszona wersja podejścia klasycznego [RKWLP]**
 ```cpp
 bool isPrime(int num) {
@@ -150,7 +150,7 @@ std::vector<int> printPrimes(int start, int end) {
 }
 ```
 - **Opis**:
-  - Jest to zrównoleglona wersja algorytmu z  Wariantu 1. Wszystkie wątki zapisują wyniki swoich obliczeń w jednym wektorze, co wymaga synchronizacji przy użyciu #pragma omp critical.Funkcja ta wykorzystuje podejście domenowe - dane dzielone są między wątki, z których każdy wykonuje swoją część.
+  - Jest to zrównoleglona wersja algorytmu z  Wariantu 1. Wszystkie wątki zapisują wyniki swoich obliczeń w jednym wektorze, co wymaga synchronizacji przy użyciu `#pragma omp critical`. Funkcja ta wykorzystuje podejście domenowe - dane dzielone są między wątki, z których każdy wykonuje swoją część.
 - **Podział pracy:** Każda liczba w zakresie od `start` do `end` jest oddzielnym zadaniem.
 
 - **Sposób przydziału:** Dynamiczny przydział zadań za pomocą OpenMP.
@@ -201,7 +201,7 @@ std::vector<int> printPrimes(int start, int end) {
 }
 ```
 - **Opis**:
-  - Jest to ulepszona wersja Wraiantu 3. Każdy wątek operuje na lokalnej wersji tablicy, a pozniej wyniki przetwarzania każdego wątku połączone są w sekcji omp critical.Funkcja ta wykorzystuje podejście domenowe - dane dzielone są między wątki, z których każdy wykonuje swoją część.
+  - Jest to ulepszona wersja Wariantu 3. Każdy wątek operuje na lokalnej wersji tablicy, a pózniej wyniki przetwarzania każdego wątku połączone są w sekcji omp critical. Funkcja ta wykorzystuje podejście domenowe - dane dzielone są między wątki, z których każdy wykonuje swoją część.
 
 - **Podział pracy:** Zadania są podzielone na pojedyncze liczby w zakresie od `start` do `end`, gdzie każda liczba jest sprawdzana oddzielnie.
 
@@ -245,7 +245,7 @@ std::vector<int> printPrimes(int start, int end) {
   }
 ```
 - **Opis**:
-  - Jest to pierwsza próba zrównoleglenia sita eratostenesa (Wariant 2).Funkcja ta wykorzystuje podejście domenowe - dane dzielone są między wątki, z których każ**dy wykonuje swoją część.
+  - Jest to pierwsza próba zrównoleglenia sita eratostenesa (Wariant 2). Funkcja ta wykorzystuje podejście domenowe - dane dzielone są między wątki, z których każdy wykonuje swoją część.
 - **Podział Pracy**
   - **Wielkość Zbioru Zadań**: Zbiór zadań obejmuje sprawdzanie każdej liczby od 2 do `N` w celu oznaczenia jej jako pierwszą lub nie.
   - **Sposób Przydziału Zadań do Procesów**: Zadania są przydzielane dynamicznie do dostępnych wątków. Każdy wątek bierze na siebie część zakresu do sprawdzenia, co pozwala na lepsze wykorzystanie zasobów obliczeniowych.
@@ -313,7 +313,7 @@ std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
     return primes;
 }
 ```
-- **Opis:** Jest to zupełnie nowe podejście. Zamiast podstawowego algorutmu wykorzystany został algorym segemntowy co pozwala na efektywne pamięciowo przeszukiwanie o wiele większych zbiorów liczb.
+- **Opis:** Jest to zupełnie nowe podejście. Zamiast podstawowego algorytmu wykorzystany został algorytm segmentowy, co pozwala na efektywne pamięciowo przeszukiwanie o wiele większych zbiorów liczb.
 - **Podział pracy:** Przetwarzanie jest podzielone na segmenty liczbowe, z których każdy jest oddzielnie przetwarzany przez wątki.
 
 - **Sposób przydziału:** Praca jest przydzielana w ramach bloków segmentowych, co pozwala na równomierne rozłożenie obciążenia między wątki.
@@ -377,7 +377,7 @@ std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
 ```
 
 
-- **Opis:** Przedstawniony fragment jest zmodyfikowaną wersją Waraintu 6. Został zmieniony sposó przydzialu iteracji pętli - z dynamic na guided.
+- **Opis:** Przedstawniony fragment jest zmodyfikowaną wersją Waraintu 6. Został zmieniony sposó przydzialu iteracji pętli - z `dynamic` na `guided`.
 - **Podział pracy:** Przetwarzanie jest podzielone na segmenty liczbowe, z których każdy jest oddzielnie przetwarzany przez wątki.
 
 - **Sposób przydziału:** Praca jest przydzielana w ramach bloków segmentowych, co pozwala na równomierne rozłożenie obciążenia między wątki.
@@ -393,7 +393,7 @@ std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
   - **False sharing:** Ograniczony dzięki lokalnym strukturom danych w każdym wątku.
   - **Synchronizacja:** Zredukowana do minimum, ponieważ większość operacji jest wykonywana niezależnie przez wątki.
 
-### Wariant 8 - Funkcujna wersja rozproszonego sita Erastotelesa[NFRSE]:
+### Wariant 8 - Funkcyjna wersja rozproszonego sita Erastotelesa[NFRSE]:
 ```cpp
 std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
     std::vector<bool> is_prime(N + 1, true);
@@ -424,7 +424,7 @@ std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
     return primes;
 }
 ```
-- **Opis:** Przedsawiony kod jest pierwsza póbą implementacji podejścia funkcyjnego.
+- **Opis:** Przedstawiony kod jest pierwsza próbą implementacji podejścia funkcyjnego.
 
 - **Podział pracy:** Przetwarzanie jest podzielone na liczby od `M` do `N`, gdzie każda liczba jest oddzielnie analizowana pod kątem bycia liczbą pierwszą.
 
@@ -440,7 +440,7 @@ std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
 - **Potencjalne problemy efektywnościowe:**
   - **False sharing:** Zminimalizowany dzięki niezależnym operacjom w ramach wątków.
   - **Synchronizacja:** Ograniczona dzięki dynamicznemu przydziałowi zadań.
-### Wariant 9 - Funkcujna wersja rozproszonego sita Erastotelesa z dyrektywa single[UFRSE]
+### Wariant 9 - Funkcyjna wersja rozproszonego sita Erastotelesa z dyrektywą single[UFRSE]
 ```cpp
 std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
     long long sqrtN = static_cast<long long>(std::sqrt(N));
@@ -491,7 +491,7 @@ std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
     return primes;
 }
 ```
-- **Opis:** W tym Wariancie zostało zastosowane podejście któro bardziej przypomina podejście funkcuje. Przetwarzanie jest podzelone na dwie fazy - szukanie liczb pierwszych do sqrt(n) i ich wykreślanie.
+- **Opis:** W tym Wariancie zostało zastosowane podejście, które bardziej przypomina podejście funkcyjne. Przetwarzanie jest podzielone na dwie fazy - szukanie liczb pierwszych do `sqrt(n)` i ich wykreślanie.
 - **Podział pracy:** Przetwarzanie jest podzielone na dwie fazy, co pozwala na lepsze wykorzystanie zasobów obliczeniowych i efektywniejsze zarządzanie pamięcią.
 
 - **Sposób przydziału:** Przydział zadań odbywa się dynamicznie w ramach każdej z faz, wykorzystując dyrektywy OpenMP do efektywnego zarządzania przetwarzaniem.
@@ -506,7 +506,7 @@ std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
 - **Potencjalne problemy efektywnościowe:**
   - **False sharing:** Ograniczony przez użycie lokalnych struktur danych.
   - **Synchronizacja:** Zredukowana do minimum dzięki optymalizacji podziału pracy i zastosowaniu odpowiednich dyrektyw OpenMP.
-### Wariant 10 - Funkcujna wersja rozproszonego sita Erastotelesa z dyrektywa single i lokalną kopią primes[UFRSEL]
+### Wariant 10 - Funkcyjna wersja rozproszonego sita Erastotelesa z dyrektywa single i lokalną kopią primes[UFRSEL]
 ```cpp
 std::vector<long long> find_base_primes(long long sqrtN) {
     std::vector<bool> prime_sqrtN(sqrtN + 1, true);
