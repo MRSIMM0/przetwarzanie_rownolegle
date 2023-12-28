@@ -654,235 +654,331 @@ Tabele wyników przetwarzania sekwencyjnego:
   </table>
 </div>
 
-Wyniki przetwarzania równoległego:
+**Wyniki przetwarzania równoległego:**
+
+Przysp. - przyśpieszenie programu względem wersji sekwencyjnej
+
+Prędkość - ilość przetworzonych liczb na sekundę obliczeń
+
+Efekt. - efektywność, iloraz przyśpieszenia i ilości wykorzystywanych wątków
 
 <div align="center">
-  <table border="1">
-    <tr>
-      <th></th>
-      <th colspan="2">RKWLP (8 wątków)</th>
-      <th></th>
-      <th colspan="2">RKWLP (4 wątki)</th>
-    </tr>
-    <tr>
-      <th>Zakres</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-    </tr>
-    <tr>
-      <th>0 - 150 000 000</th>
-      <th>7.79952</th>
-      <th>3.136641742</th>
-      <th>7.33463</th>
-      <th>3.335451141</th>
-    </tr>
-    <tr>
-      <th>150 000 000 - 300 000 000</th>
-      <th>11.3807</th>
-      <th>3.660996248</th>
-      <th>11.75</th>
-      <th>3.545931915</th>
-    </tr>
-    <tr>
-      <th>0 - 300 000 000</th>
-      <th>19.181</th>
-      <th>3.414936656</th>
-      <th>19.0162</th>
-      <th>3.444531505</th>
-    </tr>
-  </table>
+<table border="1">
+  <tr>
+    <th></th>
+    <th colspan="4">RKWLP (8 wątków)</th>
+    <th colspan="4">RKWLP (4 wątki)</th>
+  </tr>
+  <tr>
+    <th>Zakres</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+  </tr>
+  <tr>
+    <th>0 - 150 000 000</th>
+    <th>7.7995</th>
+    <th>3.1366</th>
+    <th>19 232 000</th>
+    <th>0.3921</th>
+    <th>7.3346</th>
+    <th>3.3355</th>
+    <th>20 451 000</th>
+    <th>0.8339</th>
+  </tr>
+  <tr>
+    <th>150 000 000 - 300 000 000</th>
+    <th>11.3807</th>
+    <th>3.6610</th>
+    <th>13 180 000</th>
+    <th>0.4576</th>
+    <th>11.7500</th>
+    <th>3.5459</th>
+    <th>12 766 000</th>
+    <th>0.8865</th>
+  </tr>
+  <tr>
+    <th>0 - 300 000 000</th>
+    <th>19.1810</th>
+    <th>3.4149</th>
+    <th>15 640 000</th>
+    <th>0.4269</th>
+    <th>19.0162</th>
+    <th>3.4445</th>
+    <th>15 776 000</th>
+    <th>0.8611</th>
+  </tr>
+</table>
 </div>
 <div align="center">
-  <table border="1">
-    <tr>
-      <th></th>
-      <th colspan="2">URKWLP (8 wątków)</th>
-      <th></th>
-      <th colspan="2">URKWLP (4 wątki)</th>
-    </tr>
-    <tr>
-      <th>Zakres</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-    </tr>
-    <tr>
-      <th>0 - 150 000 000</th>
-      <th>7.02582</th>
-      <th>3.482056187</th>
-      <th>9.78488</th>
-      <th>2.500214617</th>
-    </tr>
-    <tr>
-      <th>150 000 000 - 300 000 000</th>
-      <th>11.1582</th>
-      <th>3.733998315</th>
-      <th>13.7676</th>
-      <th>3.026286353</th>
-    </tr>
-    <tr>
-      <th>0 - 300 000 000</th>
-      <th>19.1174</th>
-      <th>3.426297509</th>
-      <th>26.4474</th>
-      <th>2.476685799</th>
-    </tr>
-  </table>
+<table border="1">
+  <tr>
+    <th></th>
+    <th colspan="4">URKWLP (8 wątków)</th>
+    <th colspan="4">URKWLP (4 wątki)</th>
+  </tr>
+  <tr>
+    <th>Zakres</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+  </tr>
+  <tr>
+    <th>0 - 150 000 000</th>
+    <th>7.0258</th>
+    <th>3.4821</th>
+    <th>21 350 000</th>
+    <th>0.4353</th>
+    <th>9.7849</th>
+    <th>2.5002</th>
+    <th>15 330 000</th>
+    <th>0.6251</th>
+  </tr>
+  <tr>
+    <th>150 000 000 - 300 000 000</th>
+    <th>11.1582</th>
+    <th>3.7340</th>
+    <th>13 443 000</th>
+    <th>0.4668</th>
+    <th>13.7676</th>
+    <th>3.0263</th>
+    <th>10 895 000</th>
+    <th>0.7566</th>
+  </tr>
+  <tr>
+    <th>0 - 300 000 000</th>
+    <th>19.1174</th>
+    <th>3.4263</th>
+    <th>15 693 000</th>
+    <th>0.4283</th>
+    <th>26.4474</th>
+    <th>2.4767</th>
+    <th>11 343 000</th>
+    <th>0.6192</th>
+  </tr>
+</table>
 </div>
 <div align="center">
-  <table border="1">
-    <tr>
-      <th></th>
-      <th colspan="2">URDSSE (8 wątków)</th>
-      <th></th>
-      <th colspan="2">URDSSE (4 wątków)</th>
-    </tr>
-    <tr>
-      <th>Zakres</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-    </tr>
-    <tr>
-      <th>0 - 6 000 000 000</th>
-      <th>24.5834</th>
-      <th>1.172510719</th>
-      <th>25.8005</th>
-      <th>0.8950954577</th>
-    </tr>
-    <tr>
-      <th>6 000 000 000 - 12 000 000 000</th>
-      <th>-</th>
-      <th>-</th>
-      <th>-</th>
-      <th>-</th>
-    </tr>
-    <tr>
-      <th>0 - 12 000 000 000</th>
-      <th>51.7358</th>
-      <th>1.153238183</th>
-      <th>56.139</th>
-      <th>0.9409238783</th>
-    </tr>
-  </table>
+<table border="1">
+  <tr>
+    <th></th>
+    <th colspan="4">URDSSE (8 wątków)</th>
+    <th colspan="4">URDSSE (4 wątki)</th>
+  </tr>
+  <tr>
+    <th>Zakres</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+  </tr>
+  <tr>
+    <th>0 - 6 000 000 000</th>
+    <th>24.5834</th>
+    <th>1.1725</th>
+    <th>244 067 000</th>
+    <th>0.1466</th>
+    <th>25.8005</th>
+    <th>0.8951</th>
+    <th>232 558 000</th>
+    <th>0.2238</th>
+  </tr>
+  <tr>
+    <th>6 000 000 000 - 12 000 000 000</th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
+    <th>-</th>
+  </tr>
+  <tr>
+    <th>0 - 12 000 000 000</th>
+    <th>51.7358</th>
+    <th>1.1532</th>
+    <th>231 948 000</th>
+    <th>0.1442</th>
+    <th>56.1390</th>
+    <th>0.9409</th>
+    <th>213 755 000</th>
+    <th>0.2352</th>
+  </tr>
+</table>
 </div>
 <div align="center">
-  <table border="1">
-    <tr>
-      <th></th>
-      <th colspan="2">GRDSSE (8 wątków)</th>
-      <th></th>
-      <th colspan="2">GRDSSE (4 wątków)</th>
-    </tr>
-    <tr>
-      <th>Zakres</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-    </tr>
-    <tr>
-      <th>0 - 6 000 000 000</th>
-      <th>5.95552</th>
-      <th>4.839930015</th>
-      <th>9.13869</th>
-      <th>3.15409539</th>
-    </tr>
-    <tr>
-      <th>6 000 000 000 - 12 000 000 000</th>
-      <th>7.04915</th>
-      <th>4.071625657</th>
-      <th>9.19431</th>
-      <th>3.121658939</th>
-    </tr>
-    <tr>
-      <th>0 - 12 000 000 000</th>
-      <th>13.8583</th>
-      <th>4.305268323</th>
-      <th>19.3009</th>
-      <th>3.091239269</th>
-    </tr>
-  </table>
+<table border="1">
+  <tr>
+    <th></th>
+    <th colspan="4">GRDSSE (8 wątków)</th>
+    <th colspan="4">GRDSSE (4 wątki)</th>
+  </tr>
+  <tr>
+    <th>Zakres</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+  </tr>
+  <tr>
+    <th>0 - 6 000 000 000</th>
+    <th>5.9555</th>
+    <th>4.8399</th>
+    <th>1 007 472 000</th>
+    <th>0.6050</th>
+    <th>9.1387</th>
+    <th>3.1541</th>
+    <th>656 548 000</th>
+    <th>0.7885</th>
+  </tr>
+  <tr>
+    <th>6 000 000 000 - 12 000 000 000</th>
+    <th>7.0492</th>
+    <th>4.0716</th>
+    <th>851 184 000</th>
+    <th>0.5090</th>
+    <th>9.1943</th>
+    <th>3.1217</th>
+    <th>652 578 000</th>
+    <th>0.7804</th>
+  </tr>
+  <tr>
+    <th>0 - 12 000 000 000</th>
+    <th>13.8583</th>
+    <th>4.3053</th>
+    <th>865 926 000</th>
+    <th>0.5382</th>
+    <th>19.3009</th>
+    <th>3.0912</th>
+    <th>621 762 000</th>
+    <th>0.7728</th>
+  </tr>
+</table>
 </div>
 <div align="center">
-  <table border="1">
-    <tr>
-      <th></th>
-      <th colspan="2">UFRSE (8 wątków)</th>
-      <th></th>
-      <th colspan="2">UFRSE (4 wątków)</th>
-    </tr>
-    <tr>
-      <th>Zakres</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-    </tr>
-    <tr>
-      <th>0 - 250 000 000</th>
-      <th>15.8288</th>
-      <th>0.07173759224</th>
-      <th>15.4083</th>
-      <th>0.07369534601</th>
-    </tr>
-    <tr>
-      <th>250 000 000 - 500 000 000</th>
-      <th>16.6369</th>
-      <th>0.07007254957</th>
-      <th>15.5489</th>
-      <th>0.07497572176</th>
-    </tr>
-    <tr>
-      <th>0 - 500 000 000</th>
-      <th>32.3571</th>
-      <th>0.07060243347</th>
-      <th>31.1471</th>
-      <th>0.07334519105</th>
-    </tr>
-  </table>
+<table border="1">
+  <tr>
+    <th></th>
+    <th colspan="4">UFRSE (8 wątków)</th>
+    <th colspan="4">UFRSE (4 wątki)</th>
+  </tr>
+  <tr>
+    <th>Zakres</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+  </tr>
+  <tr>
+    <th>0 - 250 000 000</th>
+    <th>15.8288</th>
+    <th>0.0717</th>
+    <th>15 795 000</th>
+    <th>0.0090</th>
+    <th>15.4083</th>
+    <th>0.0737</th>
+    <th>16 225 000</th>
+    <th>0.0184</th>
+  </tr>
+  <tr>
+    <th>250 000 000 - 500 000 000</th>
+    <th>16.6369</th>
+    <th>0.0701</th>
+    <th>15 027 000</th>
+    <th>0.0088</th>
+    <th>15.5489</th>
+    <th>0.0750</th>
+    <th>16 078 000</th>
+    <th>0.0188</th>
+  </tr>
+  <tr>
+    <th>0 - 500 000 000</th>
+    <th>32.3571</th>
+    <th>0.0706</th>
+    <th>15 453 000</th>
+    <th>0.0088</th>
+    <th>31.1471</th>
+    <th>0.0733</th>
+    <th>16 053 000</th>
+    <th>0.0183</th>
+  </tr>
+</table>
 </div>
 <div align="center">
-  <table border="1">
-    <tr>
-      <th></th>
-      <th colspan="2">UFRSEL (8 wątków)</th>
-      <th></th>
-      <th colspan="2">UFRSEL (4 wątków)</th>
-    </tr>
-    <tr>
-      <th>Zakres</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-      <th>Czas[sek]</th>
-      <th>Przyspieszenie względem programu sekwencyjnego</th>
-    </tr>
-    <tr>
-      <th>0 - 250 000 000</th>
-      <th>6.55244</th>
-      <th>0.1732972755</th>
-      <th>4.24846</th>
-      <th>0.2672780254</th>
-    </tr>
-    <tr>
-      <th>250 000 000 - 500 000 000</th>
-      <th>6.1931</th>
-      <th>0.1882401382</th>
-      <th>5.95336</th>
-      <th>0.1958205114</th>
-    </tr>
-    <tr>
-      <th>0 - 500 000 000</th>
-      <th>12.7608</th>
-      <th>0.1790240424</th>
-      <th>10.1805</th>
-      <th>0.2243986052</th>
-    </tr>
-  </table>
+<table border="1">
+  <tr>
+    <th></th>
+    <th colspan="4">UFRSEL (8 wątków)</th>
+    <th colspan="4">UFRSEL (4 wątki)</th>
+  </tr>
+  <tr>
+    <th>Zakres</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+    <th>Czas[sek]</th>
+    <th>Przysp.</th>
+    <th>Prędkość</th>
+    <th>Efekt.</th>
+  </tr>
+  <tr>
+    <th>0 - 250 000 000</th>
+    <th>6.5524</th>
+    <th>0.1733</th>
+    <th>38 154 000</th>
+    <th>0.0217</th>
+    <th>4.2485</th>
+    <th>0.2673</th>
+    <th>59 851 000</th>
+    <th>0.0668</th>
+  </tr>
+  <tr>
+    <th>250 000 000 - 500 000 000</th>
+    <th>6.1931</th>
+    <th>0.1882</th>
+    <th>40 368 000</th>
+    <th>0.0235</th>
+    <th>5.9534</th>
+    <th>0.1958</th>
+    <th>41 996 000</th>
+    <th>0.0490</th>
+  </tr>
+  <tr>
+    <th>0 - 500 000 000</th>
+    <th>12.7608</th>
+    <th>0.1790</th>
+    <th>39 182 000</th>
+    <th>0.0224</th>
+    <th>10.1805</th>
+    <th>0.2244</th>
+    <th>49 116 000</th>
+    <th>0.0561</th>
+  </tr>
+</table>
 </div>
 
 
