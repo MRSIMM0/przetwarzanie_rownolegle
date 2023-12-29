@@ -596,60 +596,74 @@ Tabele wyników przetwarzania sekwencyjnego:
     <tr>
       <th>Zakres</th>
       <th>Czas [sek]</th>
+      <th>Prędkość</th>
     </tr>
     <tr>
       <th>Dla sekwencyjnego</th>
-      <th>Sekwencyjne Klasycznie</th>
+      <th></th>
+      <th></th>
     </tr>
     <tr>
       <td>0 - 150 000 000</td>
       <td>24.4643</td>
+      <td>6 131 000</td>
     </tr>
     <tr>
       <td>150 000 000 - 300 000 000</td>
       <td>41.6647</td>
+      <td>3 600 000</td>
     </tr>
     <tr>
       <td>0 - 300 000 000</td>
       <td>65.5019</td>
+      <td>4 579 000</td>
     </tr>
   </table>
     <table border="1">
     <tr>
       <th>Zakres</th>
       <th>Czas [sek]</th>
+      <th>Prędkość</th>
     </tr>
     <tr>
       <th>Dla domenowego</th>
-      <th>Sekwencyjnie Sito</th>
+      <th></th>
+      <th></th>
     </tr>
     <tr>
       <td>0 - 6 000 000 000</td>
       <td>28.8243</td>
+      <td>208 158 000</td>
     </tr>
     <tr>
       <td>6 000 000 000 - 12 000 000 000</td>
       <td>28.7015</td>
+      <td>209 048 000</td>
     </tr>
     <tr>
       <td>0 - 12 000 000 000</td>
       <td>59.6637</td>
+      <td>201 127 000</td>
     </tr>
     <tr>
       <th>Dla funkcyjnego</th>
-      <th>Sekwencyjnie Sito</th>
+      <th></th>
+      <th></th>
     </tr>
     <tr>
       <td>0 - 250 000 000</td>
       <td>1.13552</td>
+      <td>220 163 000</td>
     </tr>
     <tr>
       <td>250 000 000 - 500 000 000</td>
       <td>1.16579</td>
+      <td>214 447 000</td>
     </tr>
     <tr>
       <td>0 - 500 000 000</td>
       <td>2.28449</td>
+      <td>218 867 000</td>
     </tr>
   </table>
 </div>
