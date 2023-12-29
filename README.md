@@ -329,7 +329,7 @@ std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
   - **False sharing:** Ograniczony dzięki lokalnym strukturom danych w każdym wątku.
   - **Synchronizacja:** Zredukowana do minimum, ponieważ większość operacji jest wykonywana niezależnie przez wątki.
 
-### Wariant 7 - Zmodyfikowana Wersja Wariantu 6 - lokalne kopie primes [GRDSSE]
+### Wariant 7 - Zmodyfikowana Wersja Wariantu 6 - Testy innych strategii [GRDSSE]
 ```cpp
 std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
     const long long segmentSize = 1000000;
@@ -377,7 +377,7 @@ std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
 ```
 
 
-- **Opis:** Przedstawniony fragment jest zmodyfikowaną wersją Waraintu 6. Został zmieniony sposó przydzialu iteracji pętli - z `dynamic` na `guided`.
+- **Opis:** Przedstawniony fragment jest zmodyfikowaną wersją Waraintu 6. Został zmieniony sposó przydzialu iteracji pętli - z `dynamic` na `guided`. W tym fragmęcie sprawdziliśmy czy zmienna `limit` czyli zakres poczatkowego sprawdzenia liczb pierwszych ma wpływ na poprawność i szybkość działania agordytmu.
 - **Podział pracy:** Przetwarzanie jest podzielone na segmenty liczbowe, z których każdy jest oddzielnie przetwarzany przez wątki.
 
 - **Sposób przydziału:** Praca jest przydzielana w ramach bloków segmentowych, co pozwala na równomierne rozłożenie obciążenia między wątki.
