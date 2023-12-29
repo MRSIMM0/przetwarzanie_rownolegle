@@ -1002,6 +1002,29 @@ c) **Omówienie Wyników:**
 **Porównanie Jakości Rozwiązań:**[Prędkość przetwarzania vs. czas obliczeń].
 **Analiza Efektywności Zrównoleglenia:** [Przyspieszenie, Efektywność, Prędkość].
 ## Punkt 4: Wnioski
+
+**Podejście klasyczne**
+
+Zrównoleglenie podejścia klasycznego dało pozytywne rezultaty - czas wykonywania algorytmu RKWLP był w każdym pomiarze ponad 3-krotnie krótszy od sekwencyjnej wersji. Co ciekawe, dwukrotne zwiększenie liczby zaangażowanych w obliczenia wątków z czterech do ośmiu praktycznie nie wpłynęło na efektywność algorytmu. Powodów takiego zachowania systemu może być kilka, np.:
+
+1. Niewystarczające obciążenie pracy: Algorytm generowania liczb pierwszych może być stosunkowo prosty, a zakres danych może być niewystarczająco duży, aby uzyskać pełne korzyści z 8 wątków. W takim przypadku narzut związany z tworzeniem i zarządzaniem wątkami może przeważać nad korzyściami z równoległego przetwarzania.
+
+2. Przeskok pomiędzy danymi dla poszczególnych wątków: W przypadku równoległego przetwarzania, kiedy każdy wątek otrzymuje fragment danych do przetworzenia, ważne jest, aby te fragmenty były równo podzielone i nie nakładały się na siebie. Jeżeli zachodzi przeplatanie się danych, wątki mogą konkurować o dostęp do współdzielonych zasobów, co może prowadzić do konfliktów i utraty korzyści z równoległego przetwarzania.
+
+3. Słaba skalowalność algorytmu: Nie wszystkie algorytmy dobrze skalują się zwiększając liczbę wątków. Skalowalność zależy od natury algorytmu, jego złożoności obliczeniowej, struktury danych i sposobu dostępu do pamięci. Jeżeli algorytm nie jest dobrze dostosowany do równoległego przetwarzania, dodanie więcej wątków może nie przynieść oczekiwanej poprawy wydajności.
+
+4. Overhead związany z tworzeniem i zarządzaniem wątkami: Tworzenie i zarządzanie wątkami wprowadza pewien narzut czasowy. Jeśli czas potrzebny na ten cel jest porównywalny lub przeważa nad czasem potrzebnym na rzeczywiste obliczenia wątków, to dodanie kolejnych wątków może nie przynieść znaczącej poprawy wydajności.
+
+5. Częste wykonywanie klauzuli `critical`: dla każdej liczby pierwszej w zakresie program musi wkroczyć w sekcję krytyczną, co znacznie spowalnia wykonywanie.
+
+Problem opisany w ostatnim podpunkcie rozwiązaliśmy w kolejnej badanej wersji algorytmu - URKWLP - za pomocą lokalnych kopii tablicy `primes` (`local_primes`). Dzięki temu poszczególne wątki wchodziły do sekcji krytycznej tylko raz, na końcu przetwarzania. Dzięki temu mogliśmy odnotować ciekawą obserwację - prędkość ulepszonego algorytmu w porównaniu z pierwowzorem (RKWLP) wzrosła, gdy ten używał 8 wątków, ale malała przy używaniu 4 wątków. Ze względu na mniej synchronizacji w czasie wykonywania algorymu, ten jest bardziej zależny od liczby wykorzystywanych wątków.
+
+**domenowe sito**
+
+Pierwsze poprawne podejście do zrównoleglenia sita Erastotelesa nie dało satysfakcjonujących efektów - algorytm URDSSE, czyli rozproszone segmentowe sito Erastotelesa zmniejszył czas przetwarzania tylko o ok. 15-18% względem sekwencyjnego sita przy 8 używanych wątkach. Używając 4 wątków algorytm nawet zwolnił (przyśpieszenie było mniejsze od 1). Głównym powodem tak słabych wyników mógł być nieodpowiednio dobrany sposób przydzielania wątkom iteracji pętli - `schedule(dynamic)`. Wniosek ten wysnuliśmy po przetestowaniu innego sposobu - `schedule(guided)`. Ta mała zmiana w kodzie pozwoliła na przyśpieszenie kodu około czterokrotnie. Prawdopodobnie powód jest taki, że przydzielanie `guided` dobrze się sprawuje, gdy poszczególne iteracje różnią się długością przetwarzania. W tym algorytmie występuje takie zjawisko, ponieważ w pierwszych segmentach jest znacznie więcej liczb pierwszych niż w zakresach z większymi liczbami. 
+
+**funkcyjne sito**
+
 **Porównanie Podejść:** [Wariant 1 vs. Wariant 2, ...].
 **Podsumowanie Zrównoważenia Przetwarzania:** [Analiza zrównoważenia pracy procesorów].
 **Ocena Efektywności Skalowania:** [Efektywność w zależności od liczby procesorów].
