@@ -1025,8 +1025,18 @@ Pierwsze poprawne podejście do zrównoleglenia sita Erastotelesa nie dało saty
 
 **funkcyjne sito**
 
-**Porównanie Podejść:** [Wariant 1 vs. Wariant 2, ...].
+Pierwsza testowana wersja funkcyjnego sita Erastotelesa - UFRSE - okazała się bardzo nieefektywna, z prędkością prawie 15 razy mniejszą od sekwencyjnego sita. Podział pracy na 2 etapy znacznie spowolnił pracę algorytmu. Powodów można znaleźć kilka:
+
+1. Większa ilość iteracji - algorytm został podzielony na 2 fazy, a każda z nich wymagała pętli `for`, przez co dla tego samego zakresu program wykonał znacznie więcej iteracji niż sekwencyjna wersja.
+
+2. "Sekwencyjne" wykonywanie pierwszej fazy obliczeń - poprzez użycie dyrektywy `#pragma omp single` pierwsza faza została w całości wykonana przez 1 wątek, podczas gdy pozostałe wątki oczekiwały na synchronizację.
+
+3. Bardzo częste wchodzenie do sekcji krytycznej - praktycznie każde oznaczenie liczby jako liczba złożona oznacza wejście do sekcji krytycznej, czyli potencjalnie ten algorytm spośród wszystkich rozważanych używa sekcji krytycznych najczęściej. Z powodu tak częstego stosowania sekcji krytycznej występuje inne ciekawe zjawisko - dla 4 wątków prędkość przetwarzania jest większa niż dla 8 wątków.
+
+4. Liczba bazowych liczb pierwszych - W fazie 2 algorytm używa listy base_primes wyznaczonej w fazie 1. Jeśli liczba bazowych liczb pierwszych jest stosunkowo mała, a zakres od M do N jest duży, to koszty synchronizacji i dostępu do współdzielonej listy mogą dominować nad ewentualnymi korzyściami z równoległego przetwarzania.
+
+Problemy optymalizacyjne postaraliśmy się ograniczyć w kolejnej wersji algorytmu - UFRSEL. Dzięki zastosowaniu lokalnego wektora `local_primes` ograniczyliśmy liczbę wejść do sekcji krytycznej. Dzięki temu udało się znacznie przyśpieszyć przetwarzanie - prędkość algorytmu w porównaniu do UFRSE jest ok. 2.5 raza większa przy użyciu 8 wątków oraz ok. 3 razy większa przy 4 wątkach. Algorytm wciąż jest jednak dużo wolniejszy od sekwecyjnej wersji - przyśpieszenie w przeprowadzonych testach wynosi od 0.1882 do 0.2673.
+
 **Podsumowanie Zrównoważenia Przetwarzania:** [Analiza zrównoważenia pracy procesorów].
-**Ocena Efektywności Skalowania:** [Efektywność w zależności od liczby procesorów].
-**Ograniczenia Efektywnościowe:** [Dominujące ograniczenia w kodzie].
-(Używanie miar względnych: np. "czas przetwarzania 2 razy krócej" zamiast "o 2 sekundy krócej").
+
+**Porównanie Podejść:** [Wariant 1 vs. Wariant 2, ...].
