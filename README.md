@@ -27,6 +27,8 @@
     Autorzy:
     <br/>
     Szymon Pasieczny
+    <br/>
+    Bartosz Orzechowski, nr. indeksu 151901, email bartosz.orzechowski@student.put.poznan.pl
 
 </div>
 <div style="page-break-after: always;"></div>
@@ -83,6 +85,11 @@ Projekt ma na celu nie tylko praktyczne zastosowanie teoretycznej wiedzy zdobyte
         return primes.size();
     }
    ```
+    
+<p align="center" style="color: grey;"> 
+fragment kodu nr 1
+</p>
+    
    Ten fragment kodu nie wykonywał przetwarzania równoległego. Wykonywał się sekwencyjnie i służył do weryfikacji wyników i obliczania przyspieszenia.
 ### **Wariant 2 - Sito Erastotelesa [SSE]**
   ```cpp
@@ -120,6 +127,11 @@ std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
       return primes;
   }
   ```
+
+<p align="center" style="color: grey;"> 
+fragment kodu nr 2
+</p>
+
   Ten fragment kodu również nie wykorzystuje elementów przetwarzania równoległego ,i służy nam za punkt odniesienia w wyznaczaniu przyspieszenia. Algorytm ten to segmentowe sito Erastotelesa, został wykorzystany ze wzgledu na mniejsze wykorzystanie pamięci.
 ### **Wariant 3 - Rozproszona wersja podejścia klasycznego [RKWLP]**
 ```cpp
@@ -149,6 +161,11 @@ std::vector<int> printPrimes(int start, int end) {
     return primes;
 }
 ```
+
+<p align="center" style="color: grey;"> 
+fragment kodu nr 3
+</p>
+
 - **Opis**:
   - Jest to zrównoleglona wersja algorytmu z  Wariantu 1. Wszystkie wątki zapisują wyniki swoich obliczeń w jednym wektorze, co wymaga synchronizacji przy użyciu `#pragma omp critical`. Funkcja ta wykorzystuje podejście domenowe - dane dzielone są między wątki, z których każdy wykonuje swoją część.
 - **Podział pracy:** Każda liczba w zakresie od `start` do `end` jest oddzielnym zadaniem.
@@ -200,6 +217,11 @@ std::vector<int> printPrimes(int start, int end) {
     return primes;
 }
 ```
+
+<p align="center" style="color: grey;"> 
+fragment kodu nr 4
+</p>
+
 - **Opis**:
   - Jest to ulepszona wersja Wariantu 3. Każdy wątek operuje na lokalnej wersji tablicy, a pózniej wyniki przetwarzania każdego wątku połączone są w sekcji omp critical. Funkcja ta wykorzystuje podejście domenowe - dane dzielone są między wątki, z których każdy wykonuje swoją część.
 
@@ -244,6 +266,11 @@ std::vector<int> printPrimes(int start, int end) {
       return primes;
   }
 ```
+
+<p align="center" style="color: grey;"> 
+fragment kodu nr 5
+</p>
+
 - **Opis**:
   - Jest to pierwsza próba zrównoleglenia sita eratostenesa (Wariant 2). Funkcja ta wykorzystuje podejście domenowe - dane dzielone są między wątki, z których każdy wykonuje swoją część.
 - **Podział Pracy**
@@ -313,6 +340,11 @@ std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
     return primes;
 }
 ```
+
+<p align="center" style="color: grey;"> 
+fragment kodu nr 6
+</p>
+
 - **Opis:** Jest to zupełnie nowe podejście. Zamiast podstawowego algorytmu wykorzystany został algorytm segmentowy, co pozwala na efektywne pamięciowo przeszukiwanie o wiele większych zbiorów liczb.
 - **Podział pracy:** Przetwarzanie jest podzielone na segmenty liczbowe, z których każdy jest oddzielnie przetwarzany przez wątki.
 
@@ -376,6 +408,9 @@ std::vector<long long> sieveOfEratosthenes(long long lower, long long upper) {
 }
 ```
 
+<p align="center" style="color: grey;"> 
+fragment kodu nr 7
+</p>
 
 - **Opis:** Przedstawniony fragment jest zmodyfikowaną wersją Waraintu 6. Został zmieniony sposó przydzialu iteracji pętli - z `dynamic` na `guided`. W tym fragmęcie sprawdziliśmy czy zmienna `limit` czyli zakres poczatkowego sprawdzenia liczb pierwszych ma wpływ na poprawność i szybkość działania agordytmu.
 - **Podział pracy:** Przetwarzanie jest podzielone na segmenty liczbowe, z których każdy jest oddzielnie przetwarzany przez wątki.
@@ -424,6 +459,11 @@ std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
     return primes;
 }
 ```
+
+<p align="center" style="color: grey;"> 
+fragment kodu nr 8
+</p>
+
 - **Opis:** Przedstawiony kod jest pierwsza próbą implementacji podejścia funkcyjnego.
 
 - **Podział pracy:** Przetwarzanie jest podzielone na liczby od `M` do `N`, gdzie każda liczba jest oddzielnie analizowana pod kątem bycia liczbą pierwszą.
@@ -491,6 +531,11 @@ std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
     return primes;
 }
 ```
+
+<p align="center" style="color: grey;"> 
+fragment kodu nr 9
+</p>
+
 - **Opis:** W tym Wariancie zostało zastosowane podejście, które bardziej przypomina podejście funkcyjne. Przetwarzanie jest podzielone na dwie fazy - szukanie liczb pierwszych do `sqrt(n)` i ich wykreślanie.
 - **Podział pracy:** Przetwarzanie jest podzielone na dwie fazy, co pozwala na lepsze wykorzystanie zasobów obliczeniowych i efektywniejsze zarządzanie pamięcią.
 
@@ -568,6 +613,11 @@ std::vector<long long> sieve_of_eratosthenes(long long M, long long N) {
     return primes;
 }
 ```
+
+<p align="center" style="color: grey;"> 
+fragment kodu nr 10
+</p>
+
 - **Opis:**  W tej wersji zaimplementowano sito Eratostenesa z optymalizacjami, skupiając się na efektywności obliczeniowej. Funkcja `find_base_primes` jest nowością, identyfikuje liczby pierwsze do pierwiastka z `N`, co jest kluczowe dla efektywności pamięciowej i przetwarzania. Główna funkcja `sieve_of_eratosthenes` wykorzystuje te liczby do eliminacji wielokrotności w zakresie od `M` do `N`.
 
 - **Podział pracy:** Przetwarzanie odbywa się w dwóch etapach: identyfikacja bazowych liczb pierwszych i ich wykorzystanie w głównej fazie sita.
@@ -619,6 +669,9 @@ Tabele wyników przetwarzania sekwencyjnego:
       <td>4 579 000</td>
     </tr>
   </table>
+    <p align="center" style="color: grey;"> 
+    Tabela nr 1
+    </p>
     <table border="1">
     <tr>
       <th>Zakres</th>
@@ -666,6 +719,9 @@ Tabele wyników przetwarzania sekwencyjnego:
       <td>218 867 000</td>
     </tr>
   </table>
+    <p align="center" style="color: grey;"> 
+    Tabela nr 2
+    </p>
 </div>
 
 **Wyniki przetwarzania równoległego:**
@@ -728,6 +784,9 @@ Efekt. - efektywność, iloraz przyśpieszenia i ilości wykorzystywanych wątk�
     <th>0.8611</th>
   </tr>
 </table>
+        <p align="center" style="color: grey;"> 
+    Tabela nr 3
+    </p>
 </div>
 <div align="center">
 <table border="1">
@@ -781,6 +840,9 @@ Efekt. - efektywność, iloraz przyśpieszenia i ilości wykorzystywanych wątk�
     <th>0.6192</th>
   </tr>
 </table>
+        <p align="center" style="color: grey;"> 
+    Tabela nr 4
+    </p>
 </div>
 <div align="center">
 <table border="1">
@@ -834,6 +896,9 @@ Efekt. - efektywność, iloraz przyśpieszenia i ilości wykorzystywanych wątk�
     <th>0.2352</th>
   </tr>
 </table>
+        <p align="center" style="color: grey;"> 
+    Tabela nr 5
+    </p>
 </div>
 <div align="center">
 <table border="1">
@@ -887,6 +952,9 @@ Efekt. - efektywność, iloraz przyśpieszenia i ilości wykorzystywanych wątk�
     <th>0.7728</th>
   </tr>
 </table>
+        <p align="center" style="color: grey;"> 
+    Tabela nr 6
+    </p>
 </div>
 <div align="center">
 <table border="1">
@@ -940,6 +1008,9 @@ Efekt. - efektywność, iloraz przyśpieszenia i ilości wykorzystywanych wątk�
     <th>0.0183</th>
   </tr>
 </table>
+        <p align="center" style="color: grey;"> 
+    Tabela nr 7
+    </p>
 </div>
 <div align="center">
 <table border="1">
@@ -993,6 +1064,9 @@ Efekt. - efektywność, iloraz przyśpieszenia i ilości wykorzystywanych wątk�
     <th>0.0561</th>
   </tr>
 </table>
+        <p align="center" style="color: grey;"> 
+    Tabela nr 8
+    </p>
 </div>
 
 ## Punkt 4: Wnioski
