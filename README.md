@@ -995,12 +995,6 @@ Efekt. - efektywność, iloraz przyśpieszenia i ilości wykorzystywanych wątk�
 </table>
 </div>
 
-
-c) **Omówienie Wyników:**
-
-
-**Porównanie Jakości Rozwiązań:**[Prędkość przetwarzania vs. czas obliczeń].
-**Analiza Efektywności Zrównoleglenia:** [Przyspieszenie, Efektywność, Prędkość].
 ## Punkt 4: Wnioski
 
 **Podejście klasyczne**
@@ -1037,6 +1031,24 @@ Pierwsza testowana wersja funkcyjnego sita Erastotelesa - UFRSE - okazała się 
 
 Problemy optymalizacyjne postaraliśmy się ograniczyć w kolejnej wersji algorytmu - UFRSEL. Dzięki zastosowaniu lokalnego wektora `local_primes` ograniczyliśmy liczbę wejść do sekcji krytycznej. Dzięki temu udało się znacznie przyśpieszyć przetwarzanie - prędkość algorytmu w porównaniu do UFRSE jest ok. 2.5 raza większa przy użyciu 8 wątków oraz ok. 3 razy większa przy 4 wątkach. Algorytm wciąż jest jednak dużo wolniejszy od sekwecyjnej wersji - przyśpieszenie w przeprowadzonych testach wynosi od 0.1882 do 0.2673.
 
-**Podsumowanie Zrównoważenia Przetwarzania:** [Analiza zrównoważenia pracy procesorów].
+**porównanie podejść**
 
-**Porównanie Podejść:** [Wariant 1 vs. Wariant 2, ...].
+Naszym zdaniem najlepszym parametrem do porównywania różnych wersji algorytmów między sobą jest prędkość, ponieważ ukazuje niezależną od zakresu szybkość przetwarzania liczb. Bazując na tym parametrze, najszybszy algorytm to GRDSSE - rozproszone segmentowe sito Erastotelesa używające przydzielania wątków do iteracji pętli metodą `guided`. Przy użyciu ośmiu wątków algorytm ten przetwarza ponad 850 milionów liczb - oznacza to, że jego efektywność była ok. czterokrotnie większa niż URDSSE, czyli tego samego algorytmu, ale korzystającego z przydzielania wątków metodą `dynamic`. Trochę wolniejsze od URDSSE było sito wykonane sekwencyjnie - ponad 200 milionów liczb na sekundę. 
+
+Pozostałe algorytmy to już druga liga prędkości - następna w obranej kolejności jest funcyjna wersja sita z optymalizacjami (UFRSEL), której prędkość wynosi ok. 40 milionów liczb na sekundę, czyli ponad 20 razy wolniej od najszybszego algorytmu. Wprowadzone w tym algorytmie modyfikacje spowolniły go na tyle, że prawie zrównał się z rozproszoną wersją klasycznego podejścia wyznaczania liczb pierwszych (był tylko ok. 2 razy szybszy).
+
+**podsumowanie zrównoleglenia**
+
+Ostatecznie próba optymalizacji algorytmów przez zrównoleglenie okazała się skuteczna w dwóch z trzech przypadków. Algorytm klasyczny po zrównolegleniu przetwarza ok. 3.5 razy szybciej, sekwencyjne sito rozproszone przyśpieszyło od 3 do prawie 5 razy. Jedynie funkcyjna wersja sita jest dużo wolniejsza od sita sekwencyjnego, nawet po optymalizacji przyśpieszenie wynosi maksymalnie 0.27. 
+
+Co ciekawe, w większości przypadków zwiększenie liczby wątków z 4 do 8 nie dało wymiernych skutków w szybkości przetwarzania. Możliwych powodów może być kilka:
+
+1. Niewystarczające obciążenie pracy - jeżeli algorytm nie generuje wystarczającej ilości pracy dla 8 wątków, to koszty związane z tworzeniem i zarządzaniem wątkami mogą przeważać nad korzyściami z równoległego przetwarzania. Algorytm musi być wystarczająco złożony, aby uzasadnić użycie większej liczby wątków.
+
+2. Konflikty pamięci podręcznej - W przypadku równoległego przetwarzania, szczególnie gdy wątki współdzielą dostęp do wspólnej pamięci, może wystąpić konkurencja o pamięć podręczną. Zamiast poprawy, dodatkowe wątki mogą powodować konflikty i spowolnienie dostępu do pamięci.
+
+3. Nieoptymalne równoważenie obciążenia - jeśli równoległe przetwarzanie nie jest dobrze zrównoważone, to niektóre wątki mogą być znacznie bardziej obciążone niż inne, co wpływa na wydajność ogólną.
+
+4. Rodzaje używanych rdzeni - możliwe, że gdy program używa 4 wątków, wykorzystywane są 4 rdzenie o wyższej efektywności, a zwiększanie liczby wątków zaprzęga do pracy rdzenie energooszczędne, które zapewniają mniej mocy obliczeniowej.
+
+Zrównoleglenie w każdym przypadku zmiejszyło efektywność pojedynczego rdzenia względem obliczeń sekwencyjnych. Jest to spowodowanie m. in. potrzebą zarządzania wątkami w algorytmach równoległych, co powoduje dodatkowy nakład pracy względem tego samego algorytmu działającego na tych samych liczbach, ale wykonanego sekwencyjnie.
