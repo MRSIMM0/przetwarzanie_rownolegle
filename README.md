@@ -24,12 +24,23 @@
     <br/>
     <br/>
     <br/>
-    Autorzy:
-    <br/>
-    Szymon Pasieczny
-    <br/>
-    Bartosz Orzechowski, nr. indeksu 151901, email bartosz.orzechowski@student.put.poznan.pl
-
+    <table border="1">
+        <tr>
+            <th>Imię i nazwisko</th>
+            <th>Nr indeksu</th>
+            <th>Email</th>
+        </tr>
+        <tr>
+            <td>Szymon Pasieczny</td>
+            <td>151884</td>
+            <td>szymon.pasieczny@student.put.poznan.pl</td>
+        </tr>
+        <tr>
+            <td>Bartosz Orzechowski</td>
+            <td>151901</td>
+            <td>bartosz.orzechowski@student.put.poznan.pl</td>
+        </tr>
+    </table>
 </div>
 <div style="page-break-after: always;"></div>
 
@@ -952,9 +963,12 @@ Efekt. - efektywność, iloraz przyśpieszenia i ilości wykorzystywanych wątk�
     <th>0.7728</th>
   </tr>
 </table>
-        <p align="center" style="color: grey;"> 
+
+<div style="page-break-after: always;"></div>
+
+<p align="center" style="color: grey;">
     Tabela nr 6
-    </p>
+</p>
 </div>
 <div align="center">
 <table border="1">
@@ -1087,11 +1101,11 @@ Zrównoleglenie podejścia klasycznego dało pozytywne rezultaty - czas wykonywa
 
 Problem opisany w ostatnim podpunkcie rozwiązaliśmy w kolejnej badanej wersji algorytmu - URKWLP - za pomocą lokalnych kopii tablicy `primes` (`local_primes`). Dzięki temu poszczególne wątki wchodziły do sekcji krytycznej tylko raz, na końcu przetwarzania. Dzięki temu mogliśmy odnotować ciekawą obserwację - prędkość ulepszonego algorytmu w porównaniu z pierwowzorem (RKWLP) wzrosła, gdy ten używał 8 wątków, ale malała przy używaniu 4 wątków. Ze względu na mniej synchronizacji w czasie wykonywania algorymu, ten jest bardziej zależny od liczby wykorzystywanych wątków.
 
-**domenowe sito**
+**Domenowe sito**
 
 Pierwsze poprawne podejście do zrównoleglenia sita Erastotelesa nie dało satysfakcjonujących efektów - algorytm URDSSE, czyli rozproszone segmentowe sito Erastotelesa zmniejszył czas przetwarzania tylko o ok. 15-18% względem sekwencyjnego sita przy 8 używanych wątkach. Używając 4 wątków algorytm nawet zwolnił (przyśpieszenie było mniejsze od 1). Głównym powodem tak słabych wyników mógł być nieodpowiednio dobrany sposób przydzielania wątkom iteracji pętli - `schedule(dynamic)`. Wniosek ten wysnuliśmy po przetestowaniu innego sposobu - `schedule(guided)`. Ta mała zmiana w kodzie pozwoliła na przyśpieszenie kodu około czterokrotnie. Prawdopodobnie powód jest taki, że przydzielanie `guided` dobrze się sprawuje, gdy poszczególne iteracje różnią się długością przetwarzania. W tym algorytmie występuje takie zjawisko, ponieważ w pierwszych segmentach jest znacznie więcej liczb pierwszych niż w zakresach z większymi liczbami. 
 
-**funkcyjne sito**
+**Funkcyjne sito**
 
 Pierwsza testowana wersja funkcyjnego sita Erastotelesa - UFRSE - okazała się bardzo nieefektywna, z prędkością prawie 15 razy mniejszą od sekwencyjnego sita. Podział pracy na 2 etapy znacznie spowolnił pracę algorytmu. Powodów można znaleźć kilka:
 
@@ -1105,13 +1119,13 @@ Pierwsza testowana wersja funkcyjnego sita Erastotelesa - UFRSE - okazała się 
 
 Problemy optymalizacyjne postaraliśmy się ograniczyć w kolejnej wersji algorytmu - UFRSEL. Dzięki zastosowaniu lokalnego wektora `local_primes` ograniczyliśmy liczbę wejść do sekcji krytycznej. Dzięki temu udało się znacznie przyśpieszyć przetwarzanie - prędkość algorytmu w porównaniu do UFRSE jest ok. 2.5 raza większa przy użyciu 8 wątków oraz ok. 3 razy większa przy 4 wątkach. Algorytm wciąż jest jednak dużo wolniejszy od sekwecyjnej wersji - przyśpieszenie w przeprowadzonych testach wynosi od 0.1882 do 0.2673.
 
-**porównanie podejść**
+**Porównanie podejść**
 
 Naszym zdaniem najlepszym parametrem do porównywania różnych wersji algorytmów między sobą jest prędkość, ponieważ ukazuje niezależną od zakresu szybkość przetwarzania liczb. Bazując na tym parametrze, najszybszy algorytm to GRDSSE - rozproszone segmentowe sito Erastotelesa używające przydzielania wątków do iteracji pętli metodą `guided`. Przy użyciu ośmiu wątków algorytm ten przetwarza ponad 850 milionów liczb - oznacza to, że jego efektywność była ok. czterokrotnie większa niż URDSSE, czyli tego samego algorytmu, ale korzystającego z przydzielania wątków metodą `dynamic`. Trochę wolniejsze od URDSSE było sito wykonane sekwencyjnie - ponad 200 milionów liczb na sekundę. 
 
 Pozostałe algorytmy to już druga liga prędkości - następna w obranej kolejności jest funcyjna wersja sita z optymalizacjami (UFRSEL), której prędkość wynosi ok. 40 milionów liczb na sekundę, czyli ponad 20 razy wolniej od najszybszego algorytmu. Wprowadzone w tym algorytmie modyfikacje spowolniły go na tyle, że prawie zrównał się z rozproszoną wersją klasycznego podejścia wyznaczania liczb pierwszych (był tylko ok. 2 razy szybszy).
 
-**podsumowanie zrównoleglenia**
+**Podsumowanie zrównoleglenia**
 
 Ostatecznie próba optymalizacji algorytmów przez zrównoleglenie okazała się skuteczna w dwóch z trzech przypadków. Algorytm klasyczny po zrównolegleniu przetwarza ok. 3.5 razy szybciej, sekwencyjne sito rozproszone przyśpieszyło od 3 do prawie 5 razy. Jedynie funkcyjna wersja sita jest dużo wolniejsza od sita sekwencyjnego, nawet po optymalizacji przyśpieszenie wynosi maksymalnie 0.27. 
 
@@ -1126,3 +1140,10 @@ Co ciekawe, w większości przypadków zwiększenie liczby wątków z 4 do 8 nie
 4. Rodzaje używanych rdzeni - możliwe, że gdy program używa 4 wątków, wykorzystywane są 4 rdzenie o wyższej efektywności, a zwiększanie liczby wątków zaprzęga do pracy rdzenie energooszczędne, które zapewniają mniej mocy obliczeniowej.
 
 Zrównoleglenie w każdym przypadku zmiejszyło efektywność pojedynczego rdzenia względem obliczeń sekwencyjnych. Jest to spowodowanie m. in. potrzebą zarządzania wątkami w algorytmach równoległych, co powoduje dodatkowy nakład pracy względem tego samego algorytmu działającego na tych samych liczbach, ale wykonanego sekwencyjnie.
+
+<style>
+body {text-align: justify; font-size: 0.9em !important }
+table {font-size: 0.7em}
+code {font-size: 0.75em}
+p {font-size: 0.8}
+</style>
